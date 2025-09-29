@@ -73,14 +73,20 @@ function compareSortValidated(compareFn) {
     return [...arr].sort(compareFn);
   };
 }
-
+// Generer validerede sorteringsfunktioner
 const lenSortValidated = compareSortValidated(compareLen);
 const ignoreCaseSortValidated = compareSortValidated(compareIgnoreCase);
 
 // Test validering
 try {
-  console.log(lenSortValidated(["Bob", "Alice", "Charlie"]));
-  console.log(lenSortValidated([1, 2, 3])); // Fejl
+  console.log(lenSortValidated(["Bob", "Alice", "Charlie"])); // OK
+  console.log(lenSortValidated("Not an array")); // Fejl
+} catch (e) {
+  console.error(e.message);
+}
+try {
+  console.log(ignoreCaseSortValidated(["bob", "Alice", "charlie"])); // OK
+  console.log(ignoreCaseSortValidated([1, 2, 3])); // Fejl
 } catch (e) {
   console.error(e.message);
 }
@@ -91,8 +97,8 @@ function subject() {
   function registerObserver(fn) {
     observers.push(fn);
   }
-  function notifyObservers(...args) {
-    observers.forEach((fn) => fn(...args));
+  function notifyObservers(msg) {
+    observers.forEach((fn) => fn(msg));
   }
   return { registerObserver, notifyObservers };
 }

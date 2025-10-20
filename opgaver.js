@@ -43,17 +43,23 @@ console.log(under30NameNumber);
 //Opgave 9.2
 function compareSort(compareFn) {
   return function (arr) {
-    return [...arr].sort(compareFn);
+    return arr.sort(compareFn);
   };
+}
+
+function compare(a, b) {
+  if (a < b) return -1;
+  if (a > b) return 1;
+  return 0;
 }
 
 // Eksempel compare-funktioner
 function compareLen(a, b) {
-  return a.length - b.length;
+  return compare(a.length, b.length);
 }
 
 function compareIgnoreCase(a, b) {
-  return a.toLowerCase().localeCompare(b.toLowerCase());
+  return compare(a.toLowerCase(), b.toLowerCase());
 }
 
 // Generer sorteringsfunktioner
@@ -92,19 +98,20 @@ try {
 }
 
 // Opgave 9.4 - Observer pattern
-function subject() {
-  const observers = [];
-  function registerObserver(fn) {
-    observers.push(fn);
+class subject {
+  constructor() {
+    this.observers = [];
   }
-  function notifyObservers(msg) {
-    observers.forEach((fn) => fn(msg));
+  registerObserver(fn) {
+    this.observers.push(fn);
   }
-  return { registerObserver, notifyObservers };
+  notifyObservers(msg) {
+    this.observers.forEach((fn) => fn(msg));
+  }
 }
 
 // Test observer pattern
-const mySubject = subject();
+const mySubject = new subject();
 
 function observer1(msg) {
   console.log("Observer 1 modtog:", msg);
